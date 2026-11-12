@@ -5,9 +5,20 @@ Tid는 IT·AI 뉴스와 GitHub 인기 저장소를 모아 대시보드와 Slack 
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/xivicWon/tid-releases/releases/latest)에서 `Tid_<버전>_aarch64.app.tar.gz`를 받습니다 (Apple Silicon Mac).
-2. 압축을 풀고 `Tid.app`을 `/Applications`로 옮깁니다.
-3. 처음 열 때 macOS 확인 창이 나오면 Finder에서 우클릭 → **열기**를 누릅니다. Apple 공증을 받지 않은 앱이라 한 번은 이렇게 열어야 합니다.
+Apple Silicon Mac에서 터미널을 열고 아래 명령을 붙여 넣습니다. 최신 버전을 받아 `/Applications/Tid.app`에 설치합니다 (예전에 설치한 Tid.app이 있으면 지우고 새로 설치).
+
+```bash
+URL=$(curl -fsSL https://github.com/xivicWon/tid-releases/releases/latest/download/latest.json | grep -o 'https://[^"]*aarch64\.app\.tar\.gz') \
+  && rm -rf /Applications/Tid.app \
+  && curl -fL "$URL" | tar xz -C /Applications
+```
+
+Tid는 Apple 공증을 받지 않은 앱입니다. 브라우저로 받으면 macOS가 "확인되지 않은 개발자" 경고를 띄우고 열지 않지만, 터미널로 받으면 이 경고 없이 바로 열립니다.
+
+브라우저로 이미 받아 설치했다면 아래 중 하나를 합니다.
+
+- 터미널에서 `xattr -dr com.apple.quarantine /Applications/Tid.app` 실행
+- 앱을 한 번 열어 경고를 닫은 뒤, 시스템 설정 → 개인정보 보호 및 보안 → **그래도 열기**
 
 ## 업데이트
 
