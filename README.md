@@ -1,9 +1,9 @@
 # Tid 릴리스
 
-Tid는 IT·AI 뉴스와 GitHub 인기 저장소를 모아 대시보드와 Slack 리포트로 정리하는 macOS 데스크톱 앱입니다.
+Tid는 IT·AI 뉴스와 GitHub 인기 저장소를 모아 대시보드와 Slack 리포트로 정리하는 데스크톱 앱입니다 (macOS Apple Silicon, Windows 64비트).
 이 저장소는 **배포 파일만** 둡니다. 소스 코드는 비공개 저장소에 있습니다.
 
-## 설치
+## 설치 (macOS)
 
 Apple Silicon Mac에서 터미널을 열고 아래 명령을 붙여 넣습니다. 최신 버전을 받아 `/Applications/Tid.app`에 설치합니다 (예전에 설치한 Tid.app이 있으면 지우고 새로 설치).
 
@@ -19,6 +19,17 @@ Tid는 Apple 공증을 받지 않은 앱입니다. 브라우저로 받으면 mac
 
 - 터미널에서 `xattr -dr com.apple.quarantine /Applications/Tid.app` 실행
 - 앱을 한 번 열어 경고를 닫은 뒤, 시스템 설정 → 개인정보 보호 및 보안 → **그래도 열기**
+
+## 설치 (Windows)
+
+PowerShell을 열고 아래 명령을 붙여 넣습니다. 최신 설치 파일을 받아 실행합니다. 관리자 권한 없이 사용자 폴더에 설치됩니다.
+
+```powershell
+$u = ((Invoke-RestMethod https://github.com/xivicWon/tid-releases/releases/latest/download/latest.json).platforms.'windows-x86_64').url
+Invoke-WebRequest $u -OutFile "$env:TEMP\Tid-setup.exe"; Start-Process "$env:TEMP\Tid-setup.exe"
+```
+
+[최신 릴리스](https://github.com/xivicWon/tid-releases/releases/latest)에서 `Tid_<버전>_x64-setup.exe`를 브라우저로 받아 실행해도 됩니다. 코드 서명 인증서가 없는 앱이라 Windows가 "Windows의 PC 보호" 경고를 띄우면 **추가 정보 → 실행**을 누릅니다.
 
 ## 업데이트
 
@@ -43,7 +54,8 @@ Tid는 Apple 공증을 받지 않은 앱입니다. 브라우저로 받으면 mac
    4. `Tid.app`을 `Tid_<버전>_<arch>.app.tar.gz`로 묶고 업데이트 서명 키로 서명
    5. `latest.json` (버전·노트·서명·내려받기 주소) 작성
    6. 이 저장소에 릴리스 `v<버전>`을 만들고 압축 파일과 `latest.json`을 올림
-4. **확인** — 설치된 앱에서 "업데이트 확인"으로 새 버전이 받아지는지 봅니다.
+4. **Windows 추가** — `scripts/release.sh publish-windows`를 실행합니다. 소스 저장소의 GitHub Actions가 서명 키 없이 Windows 설치 파일을 빌드하고, 스크립트가 그 파일을 관리자 컴퓨터에서 서명해 같은 릴리스에 올리고 `latest.json`에 Windows 항목을 더합니다.
+5. **확인** — 설치된 앱에서 "업데이트 확인"으로 새 버전이 받아지는지 봅니다.
 
 지켜야 할 것:
 
